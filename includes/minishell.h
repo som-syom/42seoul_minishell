@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llim <llim@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dhyeon <dhyeon@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 17:29:42 by dhyeon            #+#    #+#             */
-/*   Updated: 2021/04/18 20:52:21 by llim             ###   ########.fr       */
+/*   Updated: 2021/04/20 16:13:22 by dhyeon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@
 # define BACKSLASH 7
 # define PIPE 8
 # define SEMICOLON 9
+# define DOLLAR 10
 
 # define ERROR 0
 
@@ -136,6 +137,7 @@ typedef struct		s_state
 	t_save			*save_head;
 	int				s_flag;
 	char			*input;
+	char			*input2;
 	int				is_fork;
 	int				ret;
 	t_keypos		cur;
@@ -150,6 +152,7 @@ t_state				g_state;
 */
 void				init_state(t_state *state);
 void				prepare_token_and_cmd(t_state *state);
+void				jump_space(char *str, int *i);
 
 /*
 **	free
@@ -215,7 +218,7 @@ void				print_mini(void);
 /*
 **	tokenizer
 */
-void				tokenizer(t_state *state);
+void				tokenizer(int i, int count);
 int					make_token(t_state *state, int count, int i, int type);
 void				add_token_back(t_token **head, char *str, int type);
 char				*trim_str(char *str, int type);
@@ -248,6 +251,7 @@ void				parse_env(char **envp, t_state *state);
 void				add_env_back(t_env **head, char *key,
 								char *value, int has_equal);
 t_env				*create_env(char *key, char *value, int has_equal);
+void				change_dollar_sign(int i);
 
 /*
 **	env_util
@@ -338,6 +342,7 @@ void				free_cmd(t_cmd *cmd);
 void				check_env_space(t_state *state);
 void				remove_space(t_token *token);
 char				*removed_space(char *str);
-int					check_key_len(char *str);
+int					check_key_len(char *str, int is_tokenizer);
+int					is_operator_error(int type);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_util.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhyeon <dhyeon@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: llim <llim@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 18:41:40 by llim              #+#    #+#             */
-/*   Updated: 2021/04/18 19:39:43 by dhyeon           ###   ########.fr       */
+/*   Updated: 2021/04/19 21:43:24 by llim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int		is_operator(char *c, int i)
 		return (SPACE);
 	else if (c[i] == '\\')
 		return (BACKSLASH);
+	else if (c[i] == '$')
+		return (DOLLAR);
 	return (COMMON);
 }
 
@@ -58,7 +60,7 @@ int		find_end(t_state *state, int type, int i)
 	char	*input;
 
 	len = 1;
-	input = state->input;
+	input = state->input2;
 	while (input[i])
 	{
 		if (type == SINGLE && input[i] == '\'')

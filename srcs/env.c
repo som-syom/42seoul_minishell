@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhyeon <dhyeon@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: llim <llim@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 22:38:22 by llim              #+#    #+#             */
-/*   Updated: 2021/04/18 19:31:59 by dhyeon           ###   ########.fr       */
+/*   Updated: 2021/04/20 12:26:41 by llim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,30 @@ t_env	*create_env(char *key, char *value, int has_equal)
 	else
 		env->value = ft_strdup("");
 	return (env);
+}
+
+void	change_dollar_sign(int i)
+{
+	int		len;
+	char	*key;
+	char	*temp;
+	char	*value;
+	char	*input;
+
+	input = g_state.input2;
+	len = check_key_len(&input[i + 1], TRUE);
+	key = ft_substr(&input[i + 1], 0, len);
+	if (!ft_strcmp(key, "?"))
+	{
+		temp = ft_itoa(g_state.ret);
+		value = ft_strdup(temp);
+		free(temp);
+	}
+	else
+		value = ft_strdup(find_env_val(g_state.env_head, key));
+	free(key);
+	temp = changed_str(input, i, i + len, value);
+	free(g_state.input2);
+	g_state.input2 = ft_strdup(temp);
+	free(temp);
 }
